@@ -5,13 +5,11 @@ import { defineConfig, devices } from "@playwright/test";
 const BASE_URL = process.env.TEST_BASE_URL || "http://localhost:6006";
 
 export default defineConfig({
-  // ...
+  testDir: "./test",
   // Using the `html` reporter for visual diffing.
   reporter: process.env.CI ? "html" : "dot",
-  // ...
   use: {
     baseURL: BASE_URL,
-    // ...
   },
   // I recommend to run regression tests at
   // least for desktop and mobile devices.
