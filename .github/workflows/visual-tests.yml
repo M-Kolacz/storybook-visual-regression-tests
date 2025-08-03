@@ -25,6 +25,11 @@ jobs:
             - name: Build Storybook
               run: npm run build-storybook
 
+            - name: Serve Storybook
+              run: |
+                  npx serve storybook-static -l 6006 &
+                  sleep 5 # wait for server to be up
+
             - name: Build Playwright Docker Image
               run:
                   docker build -t my-project-name-test-visual . -f
