@@ -26,7 +26,9 @@ jobs:
               run: npm run build-storybook
 
             - name: Build Playwright Docker Image
-              run: docker build -t my-project-name-test-visual .
+              run:
+                  docker build -t my-project-name-test-visual . -f
+                  Dockerfile.test
 
             - name: Run Visual Regression Tests
               run: |
