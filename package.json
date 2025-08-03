@@ -9,7 +9,8 @@
         "lint": "eslint .",
         "preview": "vite preview",
         "storybook": "storybook dev -p 6006 --host 0.0.0.0",
-        "build-storybook": "storybook build"
+        "build-storybook": "storybook build",
+        "test:visual": "docker run --rm -it   -e TEST_BASE_URL='http://host.docker.internal:6006'   -e CI=true   -v ${PWD}/storybook-static:/app/storybook-static   -v ${PWD}/test:/app/test   -v ${PWD}/playwright.config.ts:/app/playwright.config.ts   my-project-name-test-visual test"
     },
     "dependencies": {
         "react": "^19.1.0",

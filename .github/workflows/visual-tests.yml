@@ -1,0 +1,40 @@
+name: Visual Regression Tests
+
+on:
+    pull_request:
+        branches: [main]
+    push:
+        branches: [main]
+
+jobs:
+    visual-tests:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout Code
+              uses: actions/checkout@v4
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 20
+
+            - name: Install Dependencies
+              run: npm ci
+
+            - name: Build Storybook
+              run: npm run build-storybook
+
+            - name: Build Playwright Docker Image
+              run: docker build -t my-project-name-test-visual .
+
+            - name: Run Visual Regression Tests
+              run: |
+                  docker run --rm \
+                    -e TEST_BASE_URL='http://host.docker.internal:6006' \
+                    -e CI=true \
+                    -v ${{ github.workspace }}/storybook-static:/app/storybook-static \
+                    -v ${{ github.workspace }}/test:/app/test \
+                    -v ${{ github.workspace }}/playwright.config.ts:/app/playwright.config.ts \
+                    --add-host=host.docker.internal:host-gateway \
+                    my-project-name-test-visual test
